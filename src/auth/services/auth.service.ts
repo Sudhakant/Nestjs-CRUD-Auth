@@ -15,28 +15,38 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async registerAccount(user: User):Promise<User> {
+  async registerAccount(user: User) {
     // console.log(bcrypt.hash(password, 12));
     // bcrypt.hash(password, 12).then((p) => console.log(p));
     //  return bcrypt.hash(password, 12);
 
     const { firstName, lastName, email, password } = user;
     // console.log(user);
-    bcrypt.hash(password, 12).then((hashedPassword) => {
+    return await bcrypt.hash(password, 12).then((hashedPassword) => {
       user.password = hashedPassword;
 
       //   console.log(user);
 
-      this.userRepository.save({
-        firstName,
-        lastName,
-        email,
-        password: user.password,
-      });
+      return this.userRepository
+        .save({
+          firstName,
+          lastName,
+          email,
+          password: user.password,
+        })
+        .then((createdUser) => {
+          // console.log(createdUser);
+          delete createdUser.password;
+          return createdUser
+        })
+        .catch(() => {
+          // console.log('You already exist. Please login again');
+          return 'Hey, It seems like You are already a part of our Family. Please login again'
+        });
     });
 
-    delete user.password;
-    return user;
+    // delete user.password;
+    // return user;
   }
 
   async validateUser(email_in: string, password_in: string) {
