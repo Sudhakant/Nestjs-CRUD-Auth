@@ -1,0 +1,13 @@
+To Register: localhost:3000/api/auth/register
+To Login: localhost:3000/api/auth/login 
+
+Authorization Types: USER(default), PREMIUM, ADMIN
+Authorization Priviledges: 
+USER(C): Create(Post) a feed
+PREMIUM(CR): Create(Post) a feed, Read(Get) all feeds
+ADMIN(CRUD): Create(Post) a feed, Read(Get) all feeds, Update(Put) a feed, Delete(Delete) a feed
+
+Create(Post): localhost:3000/api/feed
+Read(Get): localhost:3000/api/feed/all
+Update(Put): localhost:3000/api/feed/<id_number>
+Delete(Delete): localhost:3000/api/feed/<id_number>
